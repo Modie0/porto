@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POC · Founder command center</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: "Satoshi", system-ui, sans-serif; background: #070708; color: #f4f4f5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .hero { margin-bottom: 2rem; }
+    .eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #71717a; margin: 0 0 0.5rem; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 0.35rem; }
+    .sub { font-size: 0.9375rem; color: #a1a1aa; max-width: 36rem; margin: 0; line-height: 1.5; }
+    .demo-tag { display: inline-block; margin-top: 0.75rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #0a0a0b; background: #e4e4e7; padding: 0.3rem 0.55rem; border-radius: 6px; }
+    .layout { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+    @media (min-width: 880px) { .layout { grid-template-columns: 220px 1fr; align-items: start; } }
+    .side { background: #101012; border: 1px solid #27272a; border-radius: 12px; padding: 1rem; }
+    .side h2 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #71717a; margin: 0 0 0.75rem; }
+    .metric { display: flex; justify-content: space-between; font-size: 0.8125rem; padding: 0.45rem 0; border-bottom: 1px solid #1f1f23; color: #d4d4d8; }
+    .metric:last-child { border-bottom: 0; }
+    .metric span:last-child { color: #a1a1aa; }
+    .links { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #27272a; }
+    .link-row { font-size: 0.75rem; color: #71717a; padding: 0.35rem 0; }
+    .link-row strong { color: #a1a1aa; font-weight: 600; }
+    .grid { display: grid; gap: 0.85rem; }
+    @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    .card { background: #101012; border: 1px solid #27272a; border-radius: 12px; padding: 1.1rem 1.15rem; display: flex; flex-direction: column; min-height: 200px; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.65rem; }
+    .card h3 { font-size: 1rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+    .status { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.25rem 0.45rem; border-radius: 999px; white-space: nowrap; }
+    .status.ship { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.35); }
+    .status.audit { background: rgba(234, 179, 8, 0.12); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.35); }
+    .status.lab { background: rgba(59, 130, 246, 0.12); color: #93c5fd; border: 1px solid rgba(147, 197, 253, 0.35); }
+    .status.ice { background: rgba(113, 113, 122, 0.2); color: #a1a1aa; border: 1px solid #3f3f46; }
+    .next { font-size: 0.8125rem; color: #d4d4d8; margin: 0 0 0.75rem; flex: 1; line-height: 1.45; }
+    .next strong { color: #fafafa; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .tags span { font-size: 0.625rem; font-weight: 600; color: #d4d4d8; background: #1a1a1d; border: 1px solid #2e2e33; padding: 0.2rem 0.45rem; border-radius: 5px; }
+    footer.note { margin-top: 2rem; font-size: 0.75rem; color: #52525b; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <p class="eyebrow">Builder lab · static POC</p>
+      <h1>Founder command center</h1>
+      <p class="sub">Single-glance view of active builds: status, next move, and stack — mock data for portfolio capture.</p>
+      <span class="demo-tag">Demo · not connected to live data</span>
+    </header>
+    <div class="layout">
+      <aside class="side">
+        <h2>This week</h2>
+        <div class="metric"><span>Focus blocks</span><span>12</span></div>
+        <div class="metric"><span>Ship candidates</span><span>3</span></div>
+        <div class="metric"><span>Blocked</span><span>1</span></div>
+        <div class="links">
+          <h2>Quick refs</h2>
+          <div class="link-row"><strong>Design</strong> — tokens + checklist (local)</div>
+          <div class="link-row"><strong>Notes</strong> — BRAIN vault (local)</div>
+          <div class="link-row"><strong>Deploy</strong> — staging checklist (internal)</div>
+        </div>
+      </aside>
+      <div class="grid">
+        <article class="card">
+          <div class="card-top"><h3>Guest map product</h3><span class="status ship">Pre-ship</span></div>
+          <p class="next"><strong>Next:</strong> tighten empty-state + map pin clustering on low zoom.</p>
+          <div class="tags"><span>Next.js 14</span><span>Mapbox</span><span>AI assist</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>Automation storyboard</h3><span class="status lab">Prototype</span></div>
+          <p class="next"><strong>Next:</strong> export JSON → visual node layout parity check.</p>
+          <div class="tags"><span>Static UI</span><span>Ops narrative</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>Local AI workspace</h3><span class="status audit">Audit</span></div>
+          <p class="next"><strong>Next:</strong> disk budget doc + default model pinning.</p>
+          <div class="tags"><span>Ollama</span><span>Docker</span><span>Obsidian</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>Classifieds experiment</h3><span class="status ice">Icebox</span></div>
+          <p class="next"><strong>Next:</strong> define trust signals before listing density work.</p>
+          <div class="tags"><span>Full-stack</span><span>AI layer</span></div>
+        </article>
+      </div>
+    </div>
+    <p class="note">Concept demo — metrics and projects are illustrative only.</p>
+  </div>
+</body>
+</html>

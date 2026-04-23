@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POC · AI product teardown</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: "Satoshi", system-ui, sans-serif; background: #06060a; color: #f4f4f5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .shell { max-width: 1080px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #71717a; margin: 0 0 0.5rem; }
+    h1 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 0.35rem; }
+    .sub { font-size: 0.9375rem; color: #a1a1aa; max-width: 40rem; margin: 0 0 1.25rem; line-height: 1.5; }
+    .demo-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #0a0a0b; background: #d4d4d8; padding: 0.3rem 0.55rem; border-radius: 6px; display: inline-block; margin-bottom: 1.5rem; }
+    .panel { display: grid; gap: 1rem; }
+    @media (min-width: 840px) { .panel { grid-template-columns: 1fr 1.15fr; align-items: start; } }
+    .input-card { background: #0f0f12; border: 1px solid #2a2a2e; border-radius: 14px; padding: 1.15rem; }
+    .input-card label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #71717a; margin-bottom: 0.45rem; }
+    input[type="text"] { width: 100%; font-family: inherit; font-size: 0.9375rem; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid #3f3f46; background: #18181b; color: #fafafa; }
+    input::placeholder { color: #71717a; }
+    .actions { margin-top: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    button { font-family: inherit; font-size: 0.8125rem; font-weight: 600; padding: 0.55rem 1rem; border-radius: 8px; border: 1px solid #fafafa; background: #fafafa; color: #0a0a0b; cursor: pointer; }
+    button.secondary { background: transparent; color: #e4e4e7; border-color: #3f3f46; }
+    .hint { font-size: 0.75rem; color: #52525b; }
+    .output { background: #0f0f12; border: 1px solid #2a2a2e; border-radius: 14px; padding: 1.15rem; min-height: 280px; }
+    .output.hidden { display: none; }
+    .output h2 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #71717a; margin: 0 0 0.75rem; }
+    .block { border: 1px solid #27272a; border-radius: 10px; padding: 0.85rem 0.95rem; margin-bottom: 0.65rem; background: #0c0c0e; }
+    .block:last-child { margin-bottom: 0; }
+    .block h3 { font-size: 0.8125rem; font-weight: 700; margin: 0 0 0.35rem; color: #e4e4e7; }
+    .block p, .block ul { font-size: 0.8125rem; color: #a1a1aa; margin: 0; line-height: 1.5; }
+    .block ul { padding-left: 1.1rem; margin-top: 0.35rem; }
+    .prompt-box { margin-top: 0.85rem; padding: 0.75rem; border-radius: 8px; background: #141416; border: 1px dashed #3f3f46; font-size: 0.75rem; color: #d4d4d8; line-height: 1.45; font-family: ui-monospace, monospace; }
+    footer.note { margin-top: 1.5rem; font-size: 0.75rem; color: #52525b; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <p class="eyebrow">Builder lab · static POC</p>
+    <h1>AI product teardown</h1>
+    <p class="sub">Paste a product name or URL shape — this demo reveals a fixed, structured brief (no network). Useful for screenshotting prompt → output layout.</p>
+    <span class="demo-tag">Demo · offline · mock analysis</span>
+    <div class="panel">
+      <div class="input-card">
+        <label for="target">Target</label>
+        <input type="text" id="target" placeholder="e.g. habit-tracker.app or “Field notes”" value="habit-tracker.app" autocomplete="off" />
+        <div class="actions">
+          <button type="button" id="run">Generate brief</button>
+          <button type="button" class="secondary" id="reset">Clear output</button>
+        </div>
+        <p class="hint">Button toggles a canned brief — no API keys, no external calls.</p>
+      </div>
+      <div class="output" id="out">
+        <h2>Structured brief</h2>
+        <div class="block">
+          <h3>Positioning</h3>
+          <p>Habit tracker focused on streak recovery (gentle nudges, not guilt). Primary wedge: fast capture + weekly review.</p>
+        </div>
+        <div class="block">
+          <h3>Core user jobs</h3>
+          <ul>
+            <li>Log a habit in under 3 seconds</li>
+            <li>See “why I broke streak” without shame copy</li>
+            <li>Share progress privately with one accountability partner</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Risks &amp; open questions</h3>
+          <ul>
+            <li>Notification fatigue vs retention</li>
+            <li>Calendar integrations — scope creep</li>
+            <li>Monetization: pro analytics vs simplicity promise</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Suggested build order</h3>
+          <p>Capture → history → light insights → social edge (last).</p>
+        </div>
+        <p class="prompt-box" id="prompt">System: You are a product strategist. Given a product URL or name, return: positioning (3 bullets), jobs-to-be-done, risks, and a build order. Tone: crisp, non-marketing.</p>
+      </div>
+    </div>
+    <footer class="note">Concept demo — brief content is static template for layout only.</footer>
+  </div>
+  <script>
+    (function () {
+      var out = document.getElementById("out");
+      var target = document.getElementById("target");
+      var promptEl = document.getElementById("prompt");
+      document.getElementById("run").addEventListener("click", function () {
+        var t = (target.value || "habit-tracker.app").trim() || "habit-tracker.app";
+        out.classList.remove("hidden");
+        promptEl.textContent = "User: Teardown \"" + t + "\". Return: positioning, jobs-to-be-done, risks, build order. No fluff.";
+      });
+      document.getElementById("reset").addEventListener("click", function () {
+        out.classList.add("hidden");
+      });
+    })();
+  </script>
+</body>
+</html>

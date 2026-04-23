@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MODIE100X — Mohamed Kiwan</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a25;
+    --border: #2a2a3a;
+    --accent: #00f5c4;
+    --accent2: #7b5cf0;
+    --accent3: #ff4d6d;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+  body:hover .cursor { transform: translate(-50%, -50%); }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9000;
+    opacity: 0.4;
+  }
+
+  /* SCANLINES */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 8999;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s;
+    backdrop-filter: blur(0px);
+  }
+  nav.scrolled {
+    background: rgba(10,10,15,0.85);
+    border-bottom-color: var(--border);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--muted); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.25;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,245,196,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(123,92,240,0.07) 0%, transparent 70%);
+    top: 20%; right: 10%;
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 1;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .hero-label::before { content: '> '; color: var(--muted); }
+
+  .hero-name {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 1;
+    animation: fadeUp 0.8s 0.4s both;
+  }
+  .hero-name .line2 {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-title {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    opacity: 1;
+    animation: fadeUp 0.8s 0.6s both;
+  }
+  .hero-title .tag {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    margin: 0.2rem;
+    font-size: 0.75rem;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .hero-title .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 1;
+    animation: fadeUp 0.8s 0.8s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeIn 1s 1.5s both;
+  }
+  .hero-scroll-hint::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--muted);
+    display: block;
+    animation: expandLine 1s 2s both;
+  }
+
+  /* SECTIONS */
+  section { padding: 8rem 4rem; position: relative; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+    max-width: 300px;
+  }
+
+  /* ABOUT */
+  #about { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-avatar-wrap {
+    position: relative;
+  }
+  .about-avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .avatar-placeholder {
+    font-size: 6rem;
+    opacity: 0.1;
+  }
+  .about-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,245,196,0.05) 0%, transparent 60%);
+  }
+  .avatar-corner {
+    position: absolute;
+    width: 30px; height: 30px;
+    border-color: var(--accent);
+    border-style: solid;
+  }
+  .avatar-corner.tl { top: -8px; left: -8px; border-width: 2px 0 0 2px; }
+  .avatar-corner.tr { top: -8px; right: -8px; border-width: 2px 2px 0 0; }
+  .avatar-corner.bl { bottom: -8px; left: -8px; border-width: 0 0 2px 2px; }
+  .avatar-corner.br { bottom: -8px; right: -8px; border-width: 0 2px 2px 0; }
+
+  .about-text h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .about-text h3 span { color: var(--accent); }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item {}
+  .stat-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    letter-spacing: -0.03em;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .skill-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.65rem;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--surface); }
+
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 3rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 0.4rem;
+    width: 10px; height: 10px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transform: translateX(-4px);
+  }
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .timeline-date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .timeline-company {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .timeline-role {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .timeline-desc {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    max-width: 680px;
+  }
+  .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .timeline-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent2);
+    background: rgba(123,92,240,0.1);
+    border: 1px solid rgba(123,92,240,0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+  }
+
+  /* EDUCATION */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .edu-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(0,245,196,0.05), transparent);
+    border-radius: 50%;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .edu-degree {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .edu-school {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .edu-desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); }
+
+  .projects-filter {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 3px;
+    cursor: pointer;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+    cursor: pointer;
+  }
+  .project-card.large { grid-column: span 2; }
+  .project-card.medium { grid-column: span 1; }
+  .project-card.full { grid-column: span 2; }
+  .project-card.half { grid-column: span 1; }
+
+  .project-media {
+    aspect-ratio: 16/9;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .project-media img,
+  .project-media .project-shot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .project-media .project-shot--phone {
+    object-position: center top;
+  }
+
+
+  .project-shot-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    text-align: center;
+    background: linear-gradient(145deg, var(--surface2) 0%, var(--surface) 100%);
+    border: 1px dashed var(--border);
+  }
+  .project-shot-placeholder .badge-soon {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffc800;
+    background: rgba(255, 200, 0, 0.12);
+    border: 1px solid rgba(255, 200, 0, 0.35);
+    padding: 0.35rem 0.75rem;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .project-shot-placeholder .shot-hint {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--muted);
+    background: rgba(0, 0, 0, 0.28);
+    padding: 0.4rem 0.65rem;
+    border-radius: 4px;
+    max-width: 96%;
+    word-break: break-all;
+    line-height: 1.45;
+  }
+  .lawen-live-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0a0a0f;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.35rem 0.75rem;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+  }
+  .lawen-live-badge:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 38rem;
+    line-height: 1.55;
+    margin: 0 0 1.75rem 0;
+    font-weight: 400;
+  }
+  .project-type-badge.badge-soon {
+    background: rgba(255, 200, 0, 0.12) !important;
+    color: #ffc800 !important;
+    border: 1px solid rgba(255, 200, 0, 0.35) !important;
+  }
+  .project-media-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .project-type-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 3px;
+  }
+  .badge-image { background: rgba(0,245,196,0.15); color: var(--accent); border: 1px solid rgba(0,245,196,0.3); }
+  .badge-video { background: rgba(255,77,109,0.15); color: var(--accent3); border: 1px solid rgba(255,77,109,0.3); }
+  .badge-app { background: rgba(123,92,240,0.15); color: var(--accent2); border: 1px solid rgba(123,92,240,0.3); }
+  .badge-slides { background: rgba(255,200,0,0.1); color: #ffc800; border: 1px solid rgba(255,200,0,0.3); }
+
+  .project-info { padding: 1.75rem; }
+  .project-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .project-info p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .project-links { display: flex; gap: 0.75rem; }
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+    cursor: pointer;
+  .project-link svg { width: 12px; height: 12px; }
+
+  /* MEDIA MOCK VISUALS */
+  .mock-img {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .mock-img-icon { font-size: 2.5rem; opacity: 0.2; }
+  .mock-img-text {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  .mock-gradient-1 { background: linear-gradient(135deg, #0a1628, #0d2b1f); }
+  .mock-gradient-2 { background: linear-gradient(135deg, #1a0a28, #0d0d2b); }
+  .mock-gradient-3 { background: linear-gradient(135deg, #280a1a, #1a1a0a); }
+  .mock-gradient-4 { background: linear-gradient(135deg, #0a2828, #0d1a2b); }
+  .mock-gradient-5 { background: linear-gradient(135deg, #1a1a0a, #1a0a0a); }
+
+  /* VIDEO MOCK */
+  .mock-video {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a14;
+  }
+  .play-btn {
+    width: 64px; height: 64px;
+    border: 2px solid rgba(255,77,109,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent3);
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .project-card:hover .play-btn { opacity: 1; transform: scale(1.1); }
+
+  /* CONTACT / FOOTER */
+  #contact {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,245,196,0.06), transparent);
+    pointer-events: none;
+  }
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .contact-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  .contact-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .contact-link:hover { color: var(--accent); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 760px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 3rem;
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes expandLine {
+    from { width: 0; }
+    to { width: 40px; }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .blink { animation: blink 1s infinite; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    pointer-events: none;
+  }
+  .reveal.visible { 
+    opacity: 1; 
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 0 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .project-card.large, .project-card.medium,
+    .project-card.half { grid-column: span 2; }
+    footer { flex-direction: column; gap: 1rem; }
+    #contact { padding: 5rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">MODIE<span>.100X</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-label">Beirut, Lebanon</div>
+    <h1 class="hero-name">
+      MODIE<br>
+      <span class="line2">100X</span>
+    </h1>
+    <p class="hero-tagline">Lebanese entrepreneur building apps for the Middle East.</p>
+    <div class="hero-title">
+      <span class="tag">Entrepreneur</span>
+      <span class="tag">Investor</span>
+      <span class="tag">AI vibe coder</span>
+      <span class="tag">Solo builder</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <!-- TODO: fill from vault (BRAIN: Context/Profile.md) — verify About copy below -->
+  <div class="section-header reveal">
+    <span class="section-num">01 /</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-avatar-wrap reveal">
+      <div class="about-avatar">
+        <div class="avatar-corner tl"></div>
+        <div class="avatar-corner tr"></div>
+        <div class="avatar-corner bl"></div>
+        <div class="avatar-corner br"></div>
+        <span class="avatar-placeholder">👤</span>
+        <!-- Replace the span above with: <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Your Name"> -->
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <h3>I'm <span>Mohamed Kiwan</span> —<br>known online as MODIE100X.</h3>
+      <p>
+        Entrepreneur and AI-powered builder with a background in International Business.
+        Without writing a single line of code himself, Mohamed builds and ships real products —
+        from P2P marketplace apps to automated trading bots — by leveraging cutting-edge AI tools.
+      </p>
+      <p>
+        Based between Lebanon and Barcelona, he operates fully remote and moves fast. His edge
+        is turning bold ideas into working products using AI as the engine — combining business
+        instinct with modern tooling to go from zero to launched, faster than most teams can
+        schedule a meeting.
+      </p>
+      <p>
+        Currently building at the intersection of AI, entrepreneurship, and finance — always
+        looking for the next problem worth solving.
+      </p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">No-Code Built</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">AI</div>
+          <div class="stat-label">Powered Stack</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0→1</div>
+          <div class="stat-label">Builder Mindset</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">02 /</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🧰</div>
+      <div class="skill-card-title">App building</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Directing implementation with product judgment — not typing code by hand. Primary IDE and AI codegen tools per vault.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Cursor</span>
+        <span class="skill-tag">Claude Code</span>
+        <span class="skill-tag">Lovable</span>
+        <span class="skill-tag">Replit</span>
+        <span class="skill-tag">Expo</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">⚛️</div>
+      <div class="skill-card-title">Frontend</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Mobile-first and web surfaces — stack notes from Profile.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">React Native · Expo</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">HTML / CSS</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🗄️</div>
+      <div class="skill-card-title">Backend</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Supabase and Postgres — RLS, edge functions, auth; MO configures while AI builds logic (vault wording).</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Supabase</span>
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">RLS</span>
+        <span class="skill-tag">Edge functions</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🔀</div>
+      <div class="skill-card-title">AI routing</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Model and tool routing across providers — cost-aware defaults in the vault.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">OpenRouter</span>
+        <span class="skill-tag">Claude Code</span>
+        <span class="skill-tag">Gemini CLI</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🏗️</div>
+      <div class="skill-card-title">Frameworks</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Expo Router plus Lovable / Replit explored for fast iteration.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Expo Router</span>
+        <span class="skill-tag">Lovable</span>
+        <span class="skill-tag">Replit</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💡</div>
+      <div class="skill-card-title">Model policy</div>
+      <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">Haiku for routine edits → Sonnet for complex agent work (~90% cost savings on routine vs always-Sonnet, per vault).</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Haiku default</span>
+        <span class="skill-tag">Sonnet · complex</span>
+        <span class="skill-tag">Cost-conscious</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <!-- TODO: fill from vault (BRAIN: Context/Profile.md) — verify Experience copy below -->
+  <div class="section-header reveal">
+    <span class="section-num">03 /</span>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">2023 — Present</span>
+        <span class="timeline-company">// Independent</span>
+      </div>
+      <div class="timeline-role">Entrepreneur & AI Builder</div>
+      <div class="timeline-desc">
+        Building and shipping real digital products solo using AI-assisted development — from P2P marketplace
+        apps to automated trading bots — without writing a single line of traditional code. Leveraging tools
+        like Claude AI, Replit, Vercel, and Expo to go from idea to live product at speed.
+      </div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">AI Building</span>
+        <span class="timeline-tag">No-Code</span>
+        <span class="timeline-tag">Vibe Coding</span>
+        <span class="timeline-tag">Remote</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-date">Coming Soon</span>
+        <span class="timeline-company">// More experience to be added</span>
+      </div>
+      <div class="timeline-role">Your Previous Role</div>
+      <div class="timeline-desc">
+        Tell Claude your past experience and I'll fill this in for you.
+      </div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">To be updated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <!-- TODO: fill from vault (BRAIN: Context/Profile.md) — verify Education copy below -->
+  <div class="section-header reveal">
+    <span class="section-num">04 /</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-year">2019 — 2022</div>
+      <div class="edu-degree">Bachelor's (Hons) — International Business</div>
+      <div class="edu-school">University of Derby · EU Business School, Barcelona</div>
+      <div class="edu-desc">
+        Studied international business strategy, global markets, and entrepreneurship in the heart of Barcelona.
+        Built a foundation in cross-border commerce, business development, and strategic management that
+        directly informs how I approach building and scaling products today.
+      </div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">— 2019</div>
+      <div class="edu-degree">High School Diploma</div>
+      <div class="edu-school">Broumana High School · Lebanon & Kuwait</div>
+      <div class="edu-desc">
+        Completed secondary education across Lebanon and Kuwait, developing a cross-cultural perspective
+        and adaptability that has shaped a remote-first, globally-minded approach to work and business.
+      </div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">Self-Taught · Ongoing</div>
+      <div class="edu-degree">AI-Assisted Development & Vibe Coding</div>
+      <div class="edu-school">Self-directed · Online</div>
+      <div class="edu-desc">
+        Continuously learning through building — mastering prompt engineering, AI tooling, no-code platforms,
+        and modern deployment stacks by shipping real products and iterating fast.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">05 /</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-filter reveal">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="app">Apps</button>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Production UI reference: https://lawenai.vercel.app -->
+    <!-- Launch: cd ~/Downloads/lawen/web && npm run dev  →  http://localhost:3000  |  prod: https://lawenai.vercel.app  |  Expo guest: cd ~/Downloads/lawen/apps/guest && npm run start -->
+    <div class="project-card large reveal" data-type="app" onclick="openModal('modal-lawen')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+        <img id="screenshot-lawen" class="project-shot" src="./project-screenshots/lawen.png" alt="Lawen preview" width="1280" height="800" loading="lazy" decoding="async" />
+        <a href="https://lawenai.vercel.app/" class="lawen-live-badge" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Live on Vercel →</a>
+        <span class="project-type-badge badge-app">Web · Live</span>
+      </div>
+      <div class="project-info">
+        <h3>Lawen</h3>
+        <p>Describe your vibe in Arabic or English and explore trustworthy restaurants on a live map—with AI help and booking flows built for how Lebanon actually dines (including WhatsApp-first venues).</p>
+        <p style="margin-top:0.65rem;color:var(--muted);font-size:0.88rem;line-height:1.65;">Lawen is Lebanon-first restaurant discovery and booking: you start from vibe and intent, see listings on a live map, and move into guided booking without being nudged toward foreign aggregators—built for bilingual UX, messy real-world booking links, and one Lawen-native path from an AI suggestion to a merchant-handled request.</p>
+        <div class="project-links">
+          <a href="https://lawenai.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link" onclick="event.stopPropagation()">Live app ↗</a>
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-lawen')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Downloads/meal-planner-ai && npm run dev  →  http://localhost:3000 -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-meal-planner-ai')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-meal-planner-ai"
+     data-screenshot-path="./project-screenshots/meal-planner-ai.png"
+     aria-label="Meal Planner AI screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/meal-planner-ai.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>Meal Planner AI</h3>
+        <p>Personalized nutrition assistant: tailored meal plans, smarter grocery lists, and progress tracking in a fast Next.js experience with modern UI components.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-meal-planner-ai')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Desktop/AnaInSocial && npm run dev  →  UI http://localhost:5173  (API http://localhost:5001) -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-ana-in-social')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-ana-in-social"
+     data-screenshot-path="./project-screenshots/ana-in-social.png"
+     aria-label="AnaInSocial screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/ana-in-social.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>AnaInSocial</h3>
+        <p>Social plans friends opt into: creators choose who can see a plan and who is invited, guests accept or decline, and thread-style notes keep logistics in one place.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-ana-in-social')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Desktop/ClassifiedCentral && npm run start  →  Vite client http://localhost:3000  (runs API + client) -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-classified-central')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-classified-central"
+     data-screenshot-path="./project-screenshots/classified-central.png"
+     aria-label="ClassifiedCentral screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/classified-central.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>ClassifiedCentral</h3>
+        <p>A classifieds-style marketplace with a dedicated AI agent layer—listings, automation, and a documented roadmap for how the product should evolve.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-classified-central')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Desktop/LifeStream && npm run dev  →  http://localhost:5000  (PORT; confirm when running) -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-lifestream')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-lifestream"
+     data-screenshot-path="./project-screenshots/lifestream.png"
+     aria-label="LifeStream screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/lifestream.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>LifeStream</h3>
+        <p>A personal AI memory assistant: capture life as it happens, query by voice or text, and get contextual recall through a floating, “always there” interface.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-lifestream')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Desktop/inzar-app/apps/web && npm run dev  →  URL printed by dev server -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-inzar')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-inzar"
+     data-screenshot-path="./project-screenshots/inzar.png"
+     aria-label="Inzar screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/inzar.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>Inzar (web)</h3>
+        <p>Web surface from a modular monorepo—designed to ship on Vercel with room to grow additional apps alongside the same toolchain.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-inzar')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch admin UI: cd ~/Desktop/LebaneseTradePro/admin && npm start  →  http://localhost:3000  |  API: cd backend && npm run start:dev -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-lebanese-trade-pro')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-lebanese-trade-pro"
+     data-screenshot-path="./project-screenshots/lebanese-trade-pro.png"
+     aria-label="LebaneseTradePro screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/lebanese-trade-pro.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>LebaneseTradePro</h3>
+        <p>Lebanon-focused trading and business platform spanning admin, API, and mobile surfaces—with Docker support for bringing the full stack up together.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-lebanese-trade-pro')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Launch: cd ~/Downloads/jarvis && ./start.sh  →  Open WebUI http://localhost:3000  (also n8n :5678, Ollama :11434, Portainer :9000) -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-jarvis')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+      <div class="project-shot-placeholder" id="screenshot-jarvis"
+     data-screenshot-path="./project-screenshots/jarvis.png"
+     aria-label="Jarvis screenshot — coming soon">
+  <span class="badge-soon">Preview Soon</span>
+  <code class="shot-hint">Drop: project-screenshots/jarvis.png</code>
+</div>
+      </div>
+      <div class="project-info">
+        <h3>Jarvis</h3>
+        <p>Your local AI operating system on the Mac: a chat dashboard, local models, workflow automation, and memory/RAG services you control—wired together with Docker.</p>
+        <div class="project-links">
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-jarvis')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-label reveal">06 / Let's Connect</div>
+  <h2 class="contact-title reveal">Let's build<br><span style="color:var(--accent)">something great.</span></h2>
+  <p class="contact-sub reveal">Open to collaborations, partnerships, and conversations about AI, entrepreneurship, and the future of building.</p>
+  <div class="contact-links reveal">
+    <a href="/cdn-cgi/l/email-protection#412c2a2836202f2f012e34352d2e2e2a6f222e2c" class="contact-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span class="__cf_email__" data-cfemail="f4999f9d83959a9ab49b8180989b9b9fda979b99">[email&#160;protected]</span>
+    </a>
+    <a href="https://twitter.com/Modie100x" target="_blank" class="contact-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+      @Modie100x
+    </a>
+    <a href="https://linkedin.com/in/modie100" target="_blank" class="contact-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 MODIE100X · Mohamed Kiwan. Built with AI.</span>
+  <span style="color:var(--accent)">// Always building</span>
+</footer>
+
+<!-- MODALS -->
+
+<div class="modal-overlay" id="modal-lawen">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-lawen')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">LEBANON · DISCOVERY · BOOKING</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Lawen</h3>
+    <img src="./project-screenshots/lawen.png" alt="Lawen preview" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-bottom:1.25rem;" loading="lazy" />
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Web and guest experiences share one backend: Mapbox discovery, bilingual EN/AR, Supabase data, AI concierge, and booking flows. Merchant dashboard work is paused for the portfolio story—this card reflects the customer product.</p>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;"><strong>Expo Guest</strong> (<code>apps/guest</code>): the mobile guest app in the Lawen monorepo—same production API as web. Card screenshot is from your device captures; live product reference: <a href="https://lawenai.vercel.app/" target="_blank" rel="noopener noreferrer">lawenai.vercel.app</a>.</p>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">Status (vault): pre-launch with a completed audit as of 2026-04-20.</p>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+      <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);background:rgba(0,245,196,0.1);border:1px solid rgba(0,245,196,0.3);padding:0.25rem 0.65rem;border-radius:3px;">Next.js · Expo</span>
+      <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent2);background:rgba(123,92,240,0.1);border:1px solid rgba(123,92,240,0.3);padding:0.25rem 0.65rem;border-radius:3px;">Supabase</span>
+      <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent2);background:rgba(123,92,240,0.1);border:1px solid rgba(123,92,240,0.3);padding:0.25rem 0.65rem;border-radius:3px;">Vercel</span>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="https://lawenai.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
+      <a href="https://lawenai.vercel.app/api/health" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">API health ↗</a>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-meal-planner-ai">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-meal-planner-ai')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">NEXT.JS · NUTRITION</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Meal Planner AI</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Tailored meal plans, grocery lists, and progress tracking. Stack in vault: Next.js 14 App Router, Tailwind + brand tokens, Framer Motion, shadcn/ui, Zustand + Immer, React Hook Form + Zod, TanStack Query v5.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Downloads/meal-planner-ai</code></p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-ana-in-social">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-ana-in-social')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">SOCIAL PLANS · VITE · DRIZZLE</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">AnaInSocial</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Friends opt into plans; hosts control visibility and invites; guests respond; notes capture logistics.</p>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Stack (vault/repo): React + TypeScript, Tailwind + shadcn, Drizzle ORM, Vite.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Desktop/AnaInSocial</code> · Vault notes shipping priority vs Lawen is still TBD.</p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-classified-central">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-classified-central')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">CLASSIFIEDS · AI AGENT</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">ClassifiedCentral</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Classified listings plus a custom AI agent and structured documentation for how the system should behave.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Desktop/ClassifiedCentral</code> · See <code>AI_AGENT_GUIDE.md</code> and <code>PROJECT_PLAN.md</code> in-repo.</p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-lifestream">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-lifestream')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">AI MEMORY · VOICE</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">LifeStream</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Voice and text capture with contextual recall, designed around a floating assistant interface.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Desktop/LifeStream</code> · Default dev port in server: <strong>5000</strong> unless <code>PORT</code> overrides it.</p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-inzar">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-inzar')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">MONOREPO · VERCEL</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Inzar (web)</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Web app from <code>apps/web</code>; mobile intentionally omitted from the portfolio for now.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Desktop/inzar-app</code></p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-lebanese-trade-pro">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-lebanese-trade-pro')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">LEBANON · FULL STACK</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">LebaneseTradePro</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Vault: Lebanon-focused trade stack with client, backend, mobile, admin, and Docker compose. NestJS backend lives under <code>backend/</code>; admin panel uses CRA.</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Desktop/LebaneseTradePro</code></p>
+    
+  </div>
+</div>
+<div class="modal-overlay" id="modal-jarvis">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-jarvis')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">LOCAL AI · DOCKER</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Jarvis</h3>
+    <div class="project-shot-placeholder" style="position:relative;min-height:200px;border-radius:8px;margin-bottom:1.25rem;"><span>Coming Soon</span></div>
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">Self-hosted stack documented in BRAIN: Open WebUI (~3000), Ollama (~11434), n8n (~5678), Chroma, Postgres, Portainer (~9000).</p>
+    <p style="color:var(--muted);line-height:1.8;">Repo: <code>~/Downloads/jarvis</code> · Start with <code>./start.sh</code>.</p>
+    
+  </div>
+</div>
+
+<!-- modal-vid1: reserved hook -->
+<div class="modal-overlay" id="modal-vid1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-vid1')">✕</button>
+    <!-- TODO: add embed -->
+  </div>
+</div>
+
+<!-- modal-slides1: reserved hook -->
+<div class="modal-overlay" id="modal-slides1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-slides1')">✕</button>
+    <!-- TODO: add embed -->
+  </div>
+</div>
+
+<!-- modal-img1: wired to Lawen screenshot -->
+<div class="modal-overlay" id="modal-img1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-img1')">✕</button>
+    <img src="./project-screenshots/lawen.png" alt="Lawen preview" style="width:100%;height:auto;object-fit:contain;border-radius:8px;border:1px solid var(--border);" loading="lazy" />
+  </div>
+</div>
+
+<!-- modal-img2: wired to Lawen guest mobile screenshot -->
+<div class="modal-overlay" id="modal-img2">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-img2')">✕</button>
+    <img src="./project-screenshots/lawen-guest.png" alt="Lawen guest (mobile) preview" style="width:100%;max-height:70vh;object-fit:contain;border-radius:8px;border:1px solid var(--border);" loading="lazy" />
+  </div>
+</div>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    ring.style.transform = 'translate(-50%,-50%)';
+    cursor.style.transform = 'translate(-50%,-50%)';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a,button,.project-card,.filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.opacity = '0.9'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '0.5'; });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Project filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        const match = filter === 'all' || card.dataset.type === filter;
+        card.style.opacity = match ? '1' : '0.2';
+        card.style.pointerEvents = match ? 'all' : 'none';
+      });
+    });
+  });
+
+  // Modals
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => {
+      if (e.target === m) closeModal(m.id);
+    });
+  });
+</script>
+</body>
+</html>
+

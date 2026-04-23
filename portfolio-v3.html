@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Mo D — Lebanese entrepreneur building apps for the Middle East." />
+  <title>Mo D — Portfolio</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: "Satoshi", system-ui, -apple-system, sans-serif;
+      background: #0a0a0b;
+      color: #f4f4f5;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .wrap {
+      max-width: min(1120px, 100% - 2rem);
+      margin: 0 auto;
+      padding: 2.5rem clamp(1rem, 4vw, 2rem) 4rem;
+    }
+
+    header.hero {
+      margin-bottom: 2.5rem;
+    }
+    .name {
+      font-size: clamp(1.75rem, 5vw, 2.125rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+    .meta {
+      font-size: 0.9375rem;
+      color: #a1a1aa;
+      margin-bottom: 0.75rem;
+    }
+    .role {
+      font-size: 1.0625rem;
+      max-width: 34rem;
+      margin-bottom: 1rem;
+      color: #e4e4e7;
+    }
+    .tags {
+      font-size: 0.875rem;
+      color: #a1a1aa;
+      letter-spacing: 0.02em;
+    }
+    .build-lede {
+      font-size: 0.9375rem;
+      color: #a1a1aa;
+      max-width: 38rem;
+      margin: 1.15rem 0 0;
+      line-height: 1.6;
+    }
+    .build-lede strong {
+      color: #e4e4e7;
+      font-weight: 600;
+    }
+    .section-lede {
+      font-size: 0.8125rem;
+      color: #71717a;
+      margin: -0.35rem 0 1rem;
+      line-height: 1.45;
+      max-width: 38rem;
+    }
+
+    h2.section-title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #71717a;
+      margin-bottom: 1rem;
+    }
+
+    .featured {
+      background: #111113;
+      border: 1px solid #27272a;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .featured-media {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0c0c0d;
+      overflow: hidden;
+    }
+    .featured-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .featured-body {
+      padding: 1.25rem 1.35rem 1.4rem;
+    }
+    .featured-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .featured-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .featured-status {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #a1a1aa;
+      letter-spacing: 0.02em;
+    }
+    .featured-desc {
+      font-size: 0.9375rem;
+      color: #a1a1aa;
+      margin: 0 0 1rem;
+      line-height: 1.55;
+      max-width: 40rem;
+    }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.15rem;
+    }
+    .stack span {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: #d4d4d8;
+      background: #1c1c1f;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #2e2e33;
+      letter-spacing: 0.03em;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem 1rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 8px;
+      background: #fafafa;
+      color: #0a0a0b;
+      border: 1px solid #fafafa;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      text-decoration: none;
+      background: #e4e4e7;
+      border-color: #e4e4e7;
+    }
+    .cta-hint {
+      font-size: 0.8125rem;
+      color: #71717a;
+    }
+
+    /* —— In-page capability demo (fictional data) —— */
+    .concept-demo {
+      margin-top: 2.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid #27272a;
+    }
+    .concept-demo > .section-title {
+      margin-bottom: 0.5rem;
+    }
+    .demo-note {
+      font-size: 0.8125rem;
+      color: #71717a;
+      margin: 0 0 1.25rem;
+      line-height: 1.45;
+      max-width: 38rem;
+    }
+    .demo-note strong {
+      font-weight: 600;
+      color: #a1a1aa;
+    }
+    .demo-sub {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #a1a1aa;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0 0 0.6rem;
+    }
+    .vibe-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+    }
+    .vibe-chip {
+      font-family: inherit;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid #3f3f46;
+      background: #141416;
+      color: #e4e4e7;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .vibe-chip:hover {
+      border-color: #52525b;
+      background: #18181b;
+    }
+    .vibe-chip:focus-visible {
+      outline: 2px solid #fafafa;
+      outline-offset: 2px;
+    }
+    .vibe-chip[aria-pressed="true"] {
+      border-color: #d4d4d8;
+      background: #27272a;
+      color: #fafafa;
+    }
+    .demo-results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+    @media (min-width: 640px) {
+      .demo-results {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+    }
+    .demo-card {
+      font-family: inherit;
+      text-align: left;
+      width: 100%;
+      margin: 0;
+      padding: 0.85rem 0.95rem;
+      border-radius: 10px;
+      border: 1px solid #2e2e33;
+      background: #111113;
+      color: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .demo-card:hover {
+      border-color: #3f3f46;
+      background: #141416;
+    }
+    .demo-card:focus-visible {
+      outline: 2px solid #fafafa;
+      outline-offset: 2px;
+    }
+    .demo-card[aria-pressed="true"] {
+      border-color: #52525b;
+      background: #161618;
+    }
+    .demo-card-name {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.2rem;
+    }
+    .demo-card-area {
+      font-size: 0.75rem;
+      color: #a1a1aa;
+      margin: 0 0 0.45rem;
+    }
+    .demo-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.45rem;
+    }
+    .demo-card-tags span {
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #a1a1aa;
+      background: #1c1c1f;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid #2e2e33;
+    }
+    .demo-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      font-size: 0.6875rem;
+      color: #71717a;
+    }
+    .demo-card-meta span {
+      white-space: nowrap;
+    }
+    .demo-detail {
+      margin-top: 1rem;
+      padding: 1rem 1.05rem;
+      border-radius: 10px;
+      border: 1px solid #2e2e33;
+      background: #0c0c0d;
+    }
+    .demo-detail[hidden] {
+      display: none !important;
+    }
+    .demo-detail-h {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #71717a;
+      margin: 0 0 0.35rem;
+    }
+    .demo-detail-title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.35rem;
+    }
+    .demo-detail-area {
+      font-size: 0.8125rem;
+      color: #a1a1aa;
+      margin: 0 0 0.75rem;
+    }
+    .demo-detail-copy {
+      font-size: 0.875rem;
+      color: #d4d4d8;
+      line-height: 1.5;
+      margin: 0 0 0.65rem;
+    }
+    .demo-detail-grid {
+      display: grid;
+      gap: 0.35rem 1rem;
+      font-size: 0.8125rem;
+      color: #a1a1aa;
+    }
+    @media (min-width: 480px) {
+      .demo-detail-grid {
+        grid-template-columns: auto 1fr;
+      }
+    }
+    .demo-detail-grid dt {
+      margin: 0;
+      color: #71717a;
+      font-weight: 600;
+    }
+    .demo-detail-grid dd {
+      margin: 0;
+    }
+    .demo-placeholder {
+      font-size: 0.875rem;
+      color: #71717a;
+      margin: 0;
+      padding: 0.75rem 0;
+    }
+
+    /* —— POC lab —— */
+    .poc-lab {
+      margin-top: 2.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid #27272a;
+    }
+    .poc-lab > .section-title {
+      margin-bottom: 0.5rem;
+    }
+    .poc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 560px) {
+      .poc-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+      }
+    }
+    .poc-card {
+      background: #111113;
+      border: 1px solid #27272a;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .poc-thumb {
+      aspect-ratio: 16 / 9;
+      background: #0c0c0d;
+      border-bottom: 1px solid #27272a;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .poc-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .poc-body {
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .poc-name {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.35rem;
+    }
+    .poc-proof {
+      font-size: 0.8125rem;
+      color: #a1a1aa;
+      line-height: 1.5;
+      margin: 0 0 0.65rem;
+      flex: 1;
+    }
+    .poc-status {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #71717a;
+    }
+
+    .poc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid #27272a;
+    }
+    .poc-open {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fafafa;
+      text-decoration: none;
+      border-bottom: 1px solid #52525b;
+      padding-bottom: 1px;
+    }
+    .poc-open:hover {
+      color: #fafafa;
+      border-bottom-color: #fafafa;
+      text-decoration: none;
+    }
+    .poc-muted {
+      font-size: 0.6875rem;
+      color: #52525b;
+    }
+
+    /* —— Nexus field: live canvas micro-build —— */
+    .nexus-showcase {
+      margin-top: 2.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid #27272a;
+      scroll-margin-top: 1.25rem;
+    }
+    .nexus-showcase > .section-title {
+      margin-bottom: 0.5rem;
+    }
+    .nexus-shell {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid #27272a;
+      overflow: hidden;
+      background: #050506;
+    }
+    #nexus-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+      touch-action: none;
+      cursor: crosshair;
+    }
+    .nexus-hud {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      padding: 0.65rem 1rem;
+      border-top: 1px solid #27272a;
+      background: #111113;
+      font-size: 0.75rem;
+      color: #71717a;
+    }
+    .nexus-hud-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+    }
+    .nexus-badge {
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0a0a0b;
+      background: #fafafa;
+      padding: 0.28rem 0.5rem;
+      border-radius: 5px;
+    }
+    .nexus-hint {
+      font-size: 0.6875rem;
+      color: #52525b;
+    }
+    a.poc-thumb {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+    a.poc-thumb:hover img {
+      opacity: 0.92;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #27272a;
+      font-size: 0.8125rem;
+      color: #71717a;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="name">Mo D</p>
+      <p class="meta">Beirut, Lebanon</p>
+      <p class="role">Lebanese entrepreneur building apps for the Middle East</p>
+      <p class="tags">Entrepreneur · Investor · AI vibe coder · Solo builder</p>
+      <p class="build-lede">
+        Solo founder: I own <strong>product direction, UX, and shipping</strong> — using AI tools and model APIs as an execution accelerator, not a replacement for taste or judgment.
+        This page is a static file with a small interactive layer to show how I think about <strong>states, clarity, and density</strong> in real interfaces. The live app further down is <strong>one</strong> reference build, not the full scope of what I work on.
+      </p>
+    </header>
+
+    <h2 class="section-title">Interaction patterns</h2>
+    <p class="section-lede" id="patterns-lede">Fictional data across domains — same interaction model (pick a lane → cards → detail). Not a pitch for one product.</p>
+
+    <section class="concept-demo" aria-labelledby="concept-title">
+      <h2 class="section-title" id="concept-title">Cross-domain UI sample</h2>
+      <p class="demo-note">
+        <strong>Capability demo.</strong> Five different product shapes; one interaction pattern. Plain HTML/CSS/JS in this file — the kind of UI layer I iterate on before wiring real APIs and AI backends.
+      </p>
+      <p class="demo-sub" id="vibe-label">Pick a domain</p>
+      <div class="vibe-chips" role="group" aria-labelledby="vibe-label">
+        <button type="button" class="vibe-chip" data-vibe="dining-maps" aria-pressed="false">Dining &amp; maps</button>
+        <button type="button" class="vibe-chip" data-vibe="ops" aria-pressed="false">Ops &amp; reliability</button>
+        <button type="button" class="vibe-chip" data-vibe="marketplace" aria-pressed="false">Marketplace</button>
+        <button type="button" class="vibe-chip" data-vibe="growth" aria-pressed="false">Growth &amp; content</button>
+        <button type="button" class="vibe-chip" data-vibe="copilot" aria-pressed="false">Copilot shell</button>
+      </div>
+      <p class="demo-sub" id="results-label">Sample results</p>
+      <div class="demo-results" id="demo-results" role="region" aria-labelledby="results-label"></div>
+      <div class="demo-detail" id="demo-detail" hidden aria-live="polite">
+        <p class="demo-detail-h">Detail</p>
+        <h3 class="demo-detail-title" id="detail-name"></h3>
+        <p class="demo-detail-area" id="detail-area"></p>
+        <p class="demo-detail-copy" id="detail-copy"></p>
+        <dl class="demo-detail-grid">
+          <dt id="detail-lbl-a">Field A</dt>
+          <dd id="detail-meta-a"></dd>
+          <dt id="detail-lbl-b">Field B</dt>
+          <dd id="detail-meta-b"></dd>
+          <dt>Tags</dt>
+          <dd id="detail-tags"></dd>
+        </dl>
+      </div>
+      <p class="demo-placeholder" id="demo-placeholder">Choose a domain to populate mock results.</p>
+    </section>
+
+    <h2 class="section-title">Shipped example</h2>
+    <p class="section-lede">Live deployment — map + AI-assisted discovery (Lebanon focus). Proof of end-to-end delivery alongside the in-page sample above.</p>
+    <article class="featured" aria-labelledby="lawen-title">
+      <a class="featured-media" href="https://lawenai.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Open Lawen live demo">
+        <img src="./project-screenshots/lawen.png" alt="" width="1600" height="900" decoding="async" />
+      </a>
+      <div class="featured-body">
+        <div class="featured-head">
+          <h3 class="featured-title" id="lawen-title">Lawen</h3>
+          <p class="featured-status">Pre-launch · Audit complete Apr 2026</p>
+        </div>
+        <p class="featured-desc">
+          Users describe their vibe; AI recommends matching restaurants on a live map. Focus: Lebanese market, local listings, and merchant tools.
+        </p>
+        <div class="stack" aria-label="Stack">
+          <span>Next.js 14</span>
+          <span>Mapbox</span>
+          <span>AI</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://lawenai.vercel.app" target="_blank" rel="noopener noreferrer">Open live demo</a>
+          <span class="cta-hint">lawenai.vercel.app</span>
+        </div>
+      </div>
+    </article>
+
+    <section class="nexus-showcase" id="nexus-field" aria-labelledby="nexus-title">
+      <h2 class="section-title" id="nexus-title">Nexus field</h2>
+      <p class="section-lede">
+        Live canvas on this page: particle mesh with distance links, pointer coupling, and click-to-seed nodes — vanilla JS, no libraries. Same kind of tight, perf-aware front-end loop I use on real products.
+      </p>
+      <div class="nexus-shell">
+        <canvas id="nexus-canvas" width="800" height="360" aria-label="Interactive node field. Move pointer to attract; click or tap to add a node."></canvas>
+        <div class="nexus-hud">
+          <div class="nexus-hud-left">
+            <span class="nexus-badge">Live</span>
+            <span>Nodes: <strong id="nexus-count">0</strong></span>
+            <span class="nexus-hint">Move to pull · click to seed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="poc-lab" aria-labelledby="poc-title">
+      <h2 class="section-title" id="poc-title">Proof-of-concept lab</h2>
+      <p class="section-lede">
+        Five static HTML concepts in this folder — open each file to screenshot. <strong>Nexus field</strong> (above) stays embedded on this page.
+      </p>
+      <div class="poc-grid">
+        <article class="poc-card">
+          <div class="poc-thumb">
+            <img src="./project-screenshots/poc-founder-command-center.png" alt="" width="1440" height="810" loading="lazy" decoding="async" />
+          </div>
+          <div class="poc-body">
+            <h3 class="poc-name">Founder command center</h3>
+            <p class="poc-proof">Single-glance view of active builds: status, next move, and stack — mock data for portfolio capture.</p>
+            <div class="poc-actions">
+              <a class="poc-open" href="./poc-founder-command-center.html">Open demo</a>
+              <span class="poc-muted">Static HTML · local file</span>
+            </div>
+          </div>
+        </article>
+        <article class="poc-card">
+          <div class="poc-thumb">
+            <img src="./project-screenshots/poc-ai-product-teardown.png" alt="" width="1440" height="810" loading="lazy" decoding="async" />
+          </div>
+          <div class="poc-body">
+            <h3 class="poc-name">AI product teardown</h3>
+            <p class="poc-proof">Paste a product name or URL shape — fixed structured brief, no network. Prompt → output layout for captures.</p>
+            <div class="poc-actions">
+              <a class="poc-open" href="./poc-ai-product-teardown.html">Open demo</a>
+              <span class="poc-muted">Static HTML · local file</span>
+            </div>
+          </div>
+        </article>
+        <article class="poc-card">
+          <div class="poc-thumb">
+            <img src="./project-screenshots/poc-automation-storyboard.png" alt="" width="1440" height="810" loading="lazy" decoding="async" />
+          </div>
+          <div class="poc-body">
+            <h3 class="poc-name">Automation storyboard</h3>
+            <p class="poc-proof">Readable ops flow: trigger → guardrails → transform → side effects. Static layout — logic labels are illustrative.</p>
+            <div class="poc-actions">
+              <a class="poc-open" href="./poc-automation-storyboard.html">Open demo</a>
+              <span class="poc-muted">Static HTML · local file</span>
+            </div>
+          </div>
+        </article>
+        <article class="poc-card">
+          <div class="poc-thumb">
+            <img src="./project-screenshots/poc-trading-monitor.png" alt="" width="1440" height="810" loading="lazy" decoding="async" />
+          </div>
+          <div class="poc-body">
+            <h3 class="poc-name">Trading monitor</h3>
+            <p class="poc-proof">Signal cards, session P&amp;L strip, and alert feed — mock numbers for UI capture only.</p>
+            <div class="poc-actions">
+              <a class="poc-open" href="./poc-trading-monitor.html">Open demo</a>
+              <span class="poc-muted">Static HTML · local file</span>
+            </div>
+          </div>
+        </article>
+        <article class="poc-card">
+          <div class="poc-thumb">
+            <img src="./project-screenshots/poc-app-intelligence.png" alt="" width="1440" height="810" loading="lazy" decoding="async" />
+          </div>
+          <div class="poc-body">
+            <h3 class="poc-name">App intelligence explorer</h3>
+            <p class="poc-proof">Search-style header + metric grid + “recreate with AI” prompt block — all mock, optimized for a crisp product screenshot.</p>
+            <div class="poc-actions">
+              <a class="poc-open" href="./poc-app-intelligence.html">Open demo</a>
+              <span class="poc-muted">Static HTML · local file</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer>© Mo D</footer>
+  </div>
+  <script>
+    (function () {
+      var MODES = {
+        "dining-maps": {
+          labels: { a: "Price band", b: "Booking style" },
+          items: [
+            { id: "d1", name: "Harbor Row Bistro", context: "Waterfront district", tags: ["Outdoor", "Sunset"], metaA: "$$$", metaB: "Hold via SMS", blurb: "Small menu, long tables, built for slow evenings and loud laughs." },
+            { id: "d2", name: "North End Kitchen", context: "Arts quarter", tags: ["Chef counter", "Tasting"], metaA: "$$$$", metaB: "Deposit to confirm", blurb: "Course-by-course pacing; best when you want the room to disappear." },
+            { id: "d3", name: "Linea Café & Bar", context: "Central station", tags: ["All-day", "Wi‑Fi"], metaA: "$$", metaB: "Walk-in", blurb: "Morning espresso into evening spritz — reliable when schedules slip." }
+          ]
+        },
+        ops: {
+          labels: { a: "Severity", b: "Runbook" },
+          items: [
+            { id: "o1", name: "Webhook consumer lag", context: "Payments · eu-west", tags: ["Queue depth", "15m window"], metaA: "Sev-2", metaB: "Scale workers + DLQ replay", blurb: "Retry storm after partner slowdown; need visibility before customers notice." },
+            { id: "o2", name: "Edge cache invalidation miss", context: "CDN · static assets", tags: ["Stale UI", "Version skew"], metaA: "Sev-3", metaB: "Purge + hash bump", blurb: "Users seeing yesterday’s bundle — classic release footgun, quick containment." },
+            { id: "o3", name: "DB failover drill", context: "Primary / replica", tags: ["Maintenance", "Sunday"], metaA: "Info", metaB: "Failover checklist v4", blurb: "Practice run for the moment nobody wants to do live for the first time." }
+          ]
+        },
+        marketplace: {
+          labels: { a: "Trust signal", b: "Fulfillment" },
+          items: [
+            { id: "m1", name: "Ceramic lamp · hand-glazed", context: "Seller: studio-k", tags: ["Vintage", "Fragile"], metaA: "4.9 · 210 sales", metaB: "48h dispatch", blurb: "High-touch item — messaging and damage policy need to be obvious upfront." },
+            { id: "m2", name: "Standing desk · local pickup", context: "Buyer within 10km", tags: ["Bulky", "Cash OK"], metaA: "ID verified", metaB: "Pickup slot picker", blurb: "Logistics-first listing: reduce no-shows with a tight time window UI." },
+            { id: "m3", name: "Kids’ bike · size 20\"", context: "Seasonal demand", tags: ["Used", "No warranty"], metaA: "Return: none", metaB: "Meet in public", blurb: "Clarity beats conversion tricks — honest constraints save support later." }
+          ]
+        },
+        growth: {
+          labels: { a: "Channel", b: "Next action" },
+          items: [
+            { id: "g1", name: "Launch week narrative", context: "Product drop · April", tags: ["Email", "Social"], metaA: "Owned audience", metaB: "Schedule thread + UGC cue", blurb: "One story arc across channels — avoid five different versions of the truth." },
+            { id: "g2", name: "Onboarding drop-off spike", context: "Step 3 · verify phone", tags: ["Funnel", "Experiment"], metaA: "Push + SMS", metaB: "A/B shorter copy", blurb: "Instrumentation pointed here; UX fix beats more ad spend." },
+            { id: "g3", name: "Partner co-marketing kit", context: "B2B pipeline", tags: ["PDF", "Brand safe"], metaA: "Outbound", metaB: "Share asset pack", blurb: "Make it trivial for partners to post without rewriting your positioning." }
+          ]
+        },
+        copilot: {
+          labels: { a: "Confidence", b: "Suggested tool" },
+          items: [
+            { id: "c1", name: "Draft refund reply (policy-safe)", context: "Support inbox · thread #88421", tags: ["Tone: calm", "Policy §4.2"], metaA: "High", metaB: "Insert macro + link tracker", blurb: "Keeps humans in the loop but removes blank-page friction." },
+            { id: "c2", name: "Summarize standup blockers", context: "Team · 6 attendees", tags: ["Bullets", "Owners"], metaA: "Medium", metaB: "Export to task board", blurb: "Turns chat noise into commitments — what actually moved overnight." },
+            { id: "c3", name: "Flag schema drift in API client", context: "CI · main branch", tags: ["Types", "Breaking risk"], metaA: "Low", metaB: "Open diff + owner ping", blurb: "Catches the “works on my machine” contract slip before prod deploy." }
+          ]
+        }
+      };
+
+      var chips = document.querySelectorAll(".vibe-chip");
+      var resultsEl = document.getElementById("demo-results");
+      var detailEl = document.getElementById("demo-detail");
+      var placeholderEl = document.getElementById("demo-placeholder");
+
+      function setChipPressed(active) {
+        chips.forEach(function (c) {
+          c.setAttribute("aria-pressed", c === active ? "true" : "false");
+        });
+      }
+
+      function clearDetail() {
+        detailEl.hidden = true;
+        resultsEl.querySelectorAll(".demo-card").forEach(function (c) {
+          c.setAttribute("aria-pressed", "false");
+        });
+      }
+
+      function showDetail(item, labels) {
+        document.getElementById("detail-name").textContent = item.name;
+        document.getElementById("detail-area").textContent = item.context + " · Fictional sample";
+        document.getElementById("detail-copy").textContent = item.blurb;
+        document.getElementById("detail-lbl-a").textContent = labels.a;
+        document.getElementById("detail-lbl-b").textContent = labels.b;
+        document.getElementById("detail-meta-a").textContent = item.metaA;
+        document.getElementById("detail-meta-b").textContent = item.metaB;
+        document.getElementById("detail-tags").textContent = item.tags.join(" · ");
+        detailEl.hidden = false;
+      }
+
+      function renderResults(key) {
+        var mode = MODES[key];
+        resultsEl.innerHTML = "";
+        mode.items.forEach(function (item) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "demo-card";
+          btn.setAttribute("aria-pressed", "false");
+
+          var nameEl = document.createElement("p");
+          nameEl.className = "demo-card-name";
+          nameEl.textContent = item.name;
+          btn.appendChild(nameEl);
+
+          var ctx = document.createElement("p");
+          ctx.className = "demo-card-area";
+          ctx.textContent = item.context;
+          btn.appendChild(ctx);
+
+          var tagRow = document.createElement("div");
+          tagRow.className = "demo-card-tags";
+          item.tags.forEach(function (t) {
+            var s = document.createElement("span");
+            s.textContent = t;
+            tagRow.appendChild(s);
+          });
+          btn.appendChild(tagRow);
+
+          var meta = document.createElement("div");
+          meta.className = "demo-card-meta";
+          var a = document.createElement("span");
+          a.textContent = item.metaA;
+          var b = document.createElement("span");
+          b.textContent = item.metaB;
+          meta.appendChild(a);
+          meta.appendChild(b);
+          btn.appendChild(meta);
+
+          btn.addEventListener("click", function () {
+            resultsEl.querySelectorAll(".demo-card").forEach(function (c) {
+              c.setAttribute("aria-pressed", "false");
+            });
+            btn.setAttribute("aria-pressed", "true");
+            showDetail(item, mode.labels);
+          });
+
+          resultsEl.appendChild(btn);
+        });
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          setChipPressed(chip);
+          placeholderEl.style.display = "none";
+          clearDetail();
+          renderResults(chip.dataset.vibe);
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("nexus-canvas");
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext("2d");
+      var countEl = document.getElementById("nexus-count");
+      var DPR = Math.min(window.devicePixelRatio || 1, 2);
+      var w = 800, h = 360;
+      var nodes = [];
+      var mx = 0, my = 0, hasPointer = false;
+      var N = 46;
+      var linkDist = 118;
+      var frame = 0;
+
+      function resize() {
+        var shell = canvas.parentElement;
+        if (!shell) return;
+        var rect = shell.getBoundingClientRect();
+        w = Math.max(320, rect.width);
+        h = Math.min(380, Math.max(240, rect.width * 0.44));
+        canvas.width = Math.floor(w * DPR);
+        canvas.height = Math.floor(h * DPR);
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+
+      function scatter() {
+        nodes = [];
+        for (var i = 0; i < N; i++) {
+          nodes.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.55,
+            vy: (Math.random() - 0.5) * 0.55
+          });
+        }
+        if (countEl) countEl.textContent = String(nodes.length);
+      }
+
+      function step() {
+        frame++;
+        for (var i = 0; i < nodes.length; i++) {
+          var p = nodes[i];
+          if (hasPointer) {
+            var dx = mx - p.x, dy = my - p.y;
+            var d = Math.sqrt(dx * dx + dy * dy) + 1e-3;
+            var f = Math.min(1.2, 4200 / (d * d));
+            p.vx += (dx / d) * f * 0.018;
+            p.vy += (dy / d) * f * 0.018;
+          }
+          for (var j = i + 1; j < nodes.length; j++) {
+            var q = nodes[j];
+            var sx = p.x - q.x, sy = p.y - q.y;
+            var sd = Math.sqrt(sx * sx + sy * sy) + 1e-3;
+            if (sd < 36) {
+              var rep = (36 - sd) * 0.0009;
+              p.vx += (sx / sd) * rep;
+              p.vy += (sy / sd) * rep;
+              q.vx -= (sx / sd) * rep;
+              q.vy -= (sy / sd) * rep;
+            }
+          }
+          p.vx += (Math.random() - 0.5) * 0.012;
+          p.vy += (Math.random() - 0.5) * 0.012;
+          p.vx *= 0.988;
+          p.vy *= 0.988;
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 2) { p.x = 2; p.vx *= -0.55; }
+          if (p.x > w - 2) { p.x = w - 2; p.vx *= -0.55; }
+          if (p.y < 2) { p.y = 2; p.vy *= -0.55; }
+          if (p.y > h - 2) { p.y = h - 2; p.vy *= -0.55; }
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = "#060607";
+        ctx.fillRect(0, 0, w, h);
+        var i, j, d, a, alpha;
+        for (i = 0; i < nodes.length; i++) {
+          for (j = i + 1; j < nodes.length; j++) {
+            var p = nodes[i], q = nodes[j];
+            var dx = p.x - q.x, dy = p.y - q.y;
+            d = Math.sqrt(dx * dx + dy * dy);
+            if (d < linkDist) {
+              alpha = (1 - d / linkDist) * 0.22;
+              ctx.strokeStyle = "rgba(228,228,231," + alpha + ")";
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
+          }
+        }
+        if (hasPointer) {
+          var g = ctx.createRadialGradient(mx, my, 0, mx, my, 160);
+          g.addColorStop(0, "rgba(250,250,250,0.055)");
+          g.addColorStop(1, "rgba(250,250,250,0)");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, w, h);
+        }
+        for (i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, 2.15, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(250,250,250,0.9)";
+          ctx.fill();
+        }
+      }
+
+      function loop() {
+        step();
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      function setPointer(clientX, clientY) {
+        var r = canvas.getBoundingClientRect();
+        mx = clientX - r.left;
+        my = clientY - r.top;
+        hasPointer = true;
+      }
+
+      canvas.addEventListener("pointermove", function (e) {
+        setPointer(e.clientX, e.clientY);
+      });
+      canvas.addEventListener("pointerdown", function (e) {
+        setPointer(e.clientX, e.clientY);
+        var r = canvas.getBoundingClientRect();
+        nodes.push({
+          x: e.clientX - r.left,
+          y: e.clientY - r.top,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3
+        });
+        if (countEl) countEl.textContent = String(nodes.length);
+      });
+      canvas.addEventListener("pointerleave", function () {
+        hasPointer = false;
+      });
+
+      function onResize() {
+        resize();
+        scatter();
+      }
+      window.addEventListener("resize", onResize);
+      onResize();
+      loop();
+    })();
+  </script>
+
+</body>
+</html>

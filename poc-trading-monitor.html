@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POC · Trading monitor</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: "Satoshi", system-ui, sans-serif; background: #050506; color: #f4f4f5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #71717a; margin: 0 0 0.5rem; }
+    h1 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 0.35rem; }
+    .sub { font-size: 0.9375rem; color: #a1a1aa; max-width: 40rem; margin: 0 0 1.25rem; line-height: 1.5; }
+    .demo-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #0a0a0b; background: #fafafa; padding: 0.3rem 0.55rem; border-radius: 6px; display: inline-block; margin-bottom: 1.25rem; }
+    .top { display: grid; gap: 1rem; margin-bottom: 1.25rem; }
+    @media (min-width: 800px) { .top { grid-template-columns: 1.1fr 0.9fr; } }
+    .pnl { background: #101012; border: 1px solid #27272a; border-radius: 14px; padding: 1.15rem 1.2rem; }
+    .pnl h2 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #71717a; margin: 0 0 0.65rem; }
+    .pnl-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+    .pnl-big { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; color: #fafafa; }
+    .pnl-big.pos { color: #86efac; }
+    .pnl-meta { font-size: 0.8125rem; color: #a1a1aa; }
+    .bars { display: flex; gap: 4px; margin-top: 1rem; align-items: flex-end; height: 52px; }
+    .bars i { flex: 1; background: #27272a; border-radius: 3px; display: block; }
+    .bars i:nth-child(1) { height: 35%; } .bars i:nth-child(2) { height: 55%; } .bars i:nth-child(3) { height: 42%; }
+    .bars i:nth-child(4) { height: 70%; background: #3f3f46; } .bars i:nth-child(5) { height: 48%; } .bars i:nth-child(6) { height: 62%; }
+    .bars i:nth-child(7) { height: 88%; background: #52525b; } .bars i:nth-child(8) { height: 58%; }
+    .alerts { background: #0f0f12; border: 1px solid #27272a; border-radius: 14px; padding: 1rem 1.1rem; }
+    .alerts h2 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #71717a; margin: 0 0 0.65rem; }
+    .alert { font-size: 0.8125rem; padding: 0.55rem 0; border-bottom: 1px solid #1f1f23; color: #d4d4d8; display: flex; gap: 0.65rem; align-items: flex-start; }
+    .alert:last-child { border-bottom: 0; }
+    .t { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #facc15; min-width: 3.2rem; }
+    .t.info { color: #93c5fd; }
+    .grid { display: grid; gap: 0.85rem; }
+    @media (min-width: 700px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    .sig { background: #101012; border: 1px solid #2a2a2e; border-radius: 12px; padding: 1rem; }
+    .sig h3 { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #a1a1aa; margin: 0 0 0.35rem; }
+    .sig .pair { font-size: 0.8125rem; color: #fafafa; font-weight: 600; margin-bottom: 0.35rem; }
+    .sig p { font-size: 0.75rem; color: #71717a; margin: 0; line-height: 1.45; }
+    .tag { display: inline-block; margin-top: 0.5rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.2rem 0.4rem; border-radius: 4px; background: #1a1a1d; border: 1px solid #3f3f46; color: #d4d4d8; }
+    footer.note { margin-top: 1.75rem; font-size: 0.75rem; color: #52525b; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <p class="eyebrow">Builder lab · static POC</p>
+    <h1>Trading monitor</h1>
+    <p class="sub">Signal cards, session P&amp;L strip, and alert feed — mock numbers for UI capture only.</p>
+    <span class="demo-tag">Demo · fictional P&amp;L</span>
+    <div class="top">
+      <div class="pnl">
+        <h2>Session</h2>
+        <div class="pnl-row">
+          <span class="pnl-big pos">+0.42 R</span>
+          <span class="pnl-meta">Paper · 2026-04-23 · local clock</span>
+        </div>
+        <p class="pnl-meta" style="margin:0.5rem 0 0;">Max favorable excursion 0.61 R · max adverse 0.18 R</p>
+        <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="alerts">
+        <h2>Activity</h2>
+        <div class="alert"><span class="t">Risk</span><span>Flatten suggested: volatility band &gt; threshold (mock rule).</span></div>
+        <div class="alert"><span class="t info">Exec</span><span>Bracket updated on position B — stop synced to structure low.</span></div>
+        <div class="alert"><span class="t info">Data</span><span>Feed health OK · last tick 120ms ago (illustrative).</span></div>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="sig">
+        <h3>Structure</h3>
+        <div class="pair">Index futures · 15m</div>
+        <p>Prior session high defended twice — range compression into EU open (mock narrative).</p>
+        <span class="tag">Observation</span>
+      </article>
+      <article class="sig">
+        <h3>Signal</h3>
+        <div class="pair">Mean reversion · tier B</div>
+        <p>Edge only when spread &lt; 1.2 ticks and imbalance neutral (illustrative gate).</p>
+        <span class="tag">Backtest offline</span>
+      </article>
+      <article class="sig">
+        <h3>Crypto scalp</h3>
+        <div class="pair">Pair · perp</div>
+        <p>Liquidity sweep + reclaim pattern on 1m — cooldown 90s between entries (mock).</p>
+        <span class="tag">Sim only</span>
+      </article>
+    </div>
+    <footer class="note">Concept demo — not investment advice; no live exchange connection.</footer>
+  </div>
+</body>
+</html>

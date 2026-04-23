@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POC · Automation storyboard</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: "Satoshi", system-ui, sans-serif; background: #08080a; color: #f4f4f5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .shell { max-width: 1150px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #71717a; margin: 0 0 0.5rem; }
+    h1 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 0.35rem; }
+    .sub { font-size: 0.9375rem; color: #a1a1aa; max-width: 42rem; margin: 0 0 1.25rem; line-height: 1.5; }
+    .demo-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #0a0a0b; background: #e4e4e7; padding: 0.3rem 0.55rem; border-radius: 6px; display: inline-block; margin-bottom: 1.5rem; }
+    .flow-wrap { background: #0e0e11; border: 1px solid #27272a; border-radius: 14px; padding: 1.25rem 1rem 1.5rem; overflow-x: auto; }
+    .flow { display: flex; align-items: stretch; gap: 0; min-width: 720px; }
+    .node { flex: 1; min-width: 140px; background: #121215; border: 1px solid #2e2e33; border-radius: 12px; padding: 0.9rem 0.85rem; position: relative; }
+    .node + .node { margin-left: 0.75rem; }
+    .connector { flex: 0 0 36px; display: flex; align-items: center; justify-content: center; color: #52525b; font-size: 1.1rem; user-select: none; }
+    .node-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .node h3 { font-size: 0.8125rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+    .pill { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.2rem 0.4rem; border-radius: 999px; border: 1px solid #3f3f46; color: #a1a1aa; white-space: nowrap; }
+    .pill.ok { border-color: rgba(74, 222, 128, 0.4); color: #86efac; background: rgba(34, 197, 94, 0.08); }
+    .pill.run { border-color: rgba(96, 165, 250, 0.45); color: #93c5fd; background: rgba(59, 130, 246, 0.08); }
+    .node p { font-size: 0.75rem; color: #a1a1aa; margin: 0; line-height: 1.45; }
+    .node code { display: block; margin-top: 0.5rem; font-size: 0.65rem; font-family: ui-monospace, monospace; color: #71717a; background: #0a0a0c; padding: 0.45rem 0.5rem; border-radius: 6px; border: 1px solid #27272a; }
+    .legend { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; font-size: 0.75rem; color: #71717a; }
+    .legend span strong { color: #a1a1aa; }
+    footer.note { margin-top: 1.75rem; font-size: 0.75rem; color: #52525b; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <p class="eyebrow">Builder lab · static POC</p>
+    <h1>Automation storyboard</h1>
+    <p class="sub">Readable ops flow: trigger → guardrails → transform → side effects. Static layout for portfolio screenshots — logic labels are illustrative.</p>
+    <span class="demo-tag">Demo · no execution engine</span>
+    <div class="flow-wrap">
+      <div class="flow" aria-label="Workflow sequence">
+        <div class="node">
+          <div class="node-top"><h3>Webhook ingest</h3><span class="pill ok">Live</span></div>
+          <p>New row in <strong>orders_raw</strong> within 2s of partner event.</p>
+          <code>POST /hooks/orders v2</code>
+        </div>
+        <div class="connector">→</div>
+        <div class="node">
+          <div class="node-top"><h3>Validate</h3><span class="pill run">Idempotent</span></div>
+          <p>Schema + signature check. Dead-letter if currency mismatch.</p>
+          <code>if !sig.ok → dlq</code>
+        </div>
+        <div class="connector">→</div>
+        <div class="node">
+          <div class="node-top"><h3>Normalize</h3><span class="pill ok">Pure</span></div>
+          <p>Map partner SKU → internal line items; attach region.</p>
+          <code>map.sku(line)</code>
+        </div>
+        <div class="connector">→</div>
+        <div class="node">
+          <div class="node-top"><h3>Notify</h3><span class="pill run">Rate cap</span></div>
+          <p>Enqueue ops digest + optional SMS tier-1 only.</p>
+          <code>queue.notify(ops)</code>
+        </div>
+      </div>
+      <div class="legend">
+        <span><strong>Owner:</strong> platform</span>
+        <span><strong>SLO:</strong> p95 &lt; 8s end-to-end (mock)</span>
+        <span><strong>Failure mode:</strong> DLQ + daily replay window</span>
+      </div>
+    </div>
+    <footer class="note">Concept demo — flow does not connect to real webhooks or queues.</footer>
+  </div>
+</body>
+</html>
