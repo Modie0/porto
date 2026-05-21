@@ -1241,6 +1241,58 @@
       </div>
     </div>
 
+    <!-- Live: https://www.verdictfund.xyz -->
+    <div class="project-card large reveal" data-type="app" onclick="openModal('modal-verdict-fund')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+        <img class="project-shot" src="./project-screenshots/verdict-fund.png" alt="Verdict Fund preview" width="1440" height="810" loading="lazy" decoding="async" />
+        <a href="https://www.verdictfund.xyz/" class="lawen-live-badge" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Live on Vercel →</a>
+        <span class="project-type-badge badge-app">Web · Live</span>
+      </div>
+      <div class="project-info">
+        <h3>Verdict Fund</h3>
+        <p>Prop-style trading platform: markets, signup, simulated positions, leaderboard, and dashboard—Next.js on Vercel with Supabase auth and production domain.</p>
+        <div class="project-links">
+          <a href="https://www.verdictfund.xyz/" target="_blank" rel="noopener noreferrer" class="project-link" onclick="event.stopPropagation()">Live app ↗</a>
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-verdict-fund')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live: https://lmx.vercel.app -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-lmx')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+        <img class="project-shot" src="./project-screenshots/lmx.png" alt="LMX preview" width="1440" height="810" loading="lazy" decoding="async" />
+        <a href="https://lmx.vercel.app/" class="lawen-live-badge" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Live on Vercel →</a>
+        <span class="project-type-badge badge-app">Web · Live</span>
+      </div>
+      <div class="project-info">
+        <h3>LMX</h3>
+        <p>Deployed web experience on Vercel—linked from this portfolio as a live preview of recent product work.</p>
+        <div class="project-links">
+          <a href="https://lmx.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link" onclick="event.stopPropagation()">Live app ↗</a>
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-lmx')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live: https://nouri.vercel.app -->
+    <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-nouri')">
+      <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
+        <img class="project-shot" src="./project-screenshots/nouri.png" alt="Nouri preview" width="1440" height="810" loading="lazy" decoding="async" />
+        <a href="https://nouri.vercel.app/" class="lawen-live-badge" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Live on Vercel →</a>
+        <span class="project-type-badge badge-app">Web · Live</span>
+      </div>
+      <div class="project-info">
+        <h3>Nouri</h3>
+        <p>Brand and product surface on Vercel—live preview card for Capsul / Nouri work shipped alongside Verdict and LMX.</p>
+        <div class="project-links">
+          <a href="https://nouri.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link" onclick="event.stopPropagation()">Live app ↗</a>
+          <a href="#" class="project-link" onclick="event.stopPropagation(); openModal('modal-nouri')">Details →</a>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Launch: cd ~/Downloads/meal-planner-ai && npm run dev  →  http://localhost:3000 -->
     <div class="project-card medium reveal" data-type="app" onclick="openModal('modal-meal-planner-ai')">
       <div class="project-media" style="background:#0a0a12;position:relative;overflow:hidden;">
@@ -1425,6 +1477,39 @@
       <a href="https://lawenai.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
       <a href="https://lawenai.vercel.app/api/health" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">API health ↗</a>
     </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-verdict-fund">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-verdict-fund')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">TRADING · VERCEL · SUPABASE</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Verdict Fund</h3>
+    <img src="./project-screenshots/verdict-fund.png" alt="Verdict Fund preview" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-bottom:1.25rem;" loading="lazy" />
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">Production at <a href="https://www.verdictfund.xyz/" target="_blank" rel="noopener noreferrer">verdictfund.xyz</a>. Preview thumbnail refreshes when you redeploy this portfolio repo after updating screenshots.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="https://www.verdictfund.xyz/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-lmx">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-lmx')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">VERCEL · LIVE</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">LMX</h3>
+    <img src="./project-screenshots/lmx.png" alt="LMX preview" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-bottom:1.25rem;" loading="lazy" />
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">Hosted at <a href="https://lmx.vercel.app/" target="_blank" rel="noopener noreferrer">lmx.vercel.app</a>.</p>
+    <a href="https://lmx.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-nouri">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-nouri')">✕</button>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;">VERCEL · LIVE</span>
+    <h3 style="font-size:1.8rem;font-weight:800;margin:0.75rem 0;letter-spacing:-0.02em;">Nouri</h3>
+    <img src="./project-screenshots/nouri.png" alt="Nouri preview" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-bottom:1.25rem;" loading="lazy" />
+    <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">Hosted at <a href="https://nouri.vercel.app/" target="_blank" rel="noopener noreferrer">nouri.vercel.app</a>.</p>
+    <a href="https://nouri.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
   </div>
 </div>
 <div class="modal-overlay" id="modal-meal-planner-ai">

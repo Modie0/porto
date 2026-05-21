@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/", "destination": "/portfolio-v3.html" }]
+  "rewrites": [
+    { "source": "/", "destination": "/portfolio%20(2).html" },
+    { "source": "/portfolio", "destination": "/portfolio%20(2).html" }
+  ]
 }
